@@ -14,7 +14,7 @@ const dbUserName = process.env.DB_USER;
 const dbPassword = process.env.DB_PASS;
 
 // mogodb setting
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
 const uri = `mongodb+srv://${dbUserName}:${dbPassword}@cluster0.58zpnyp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -38,6 +38,15 @@ async function run() {
     app.get("/hotels", async (req, res) => {
       const cusor = hotelCollection.find();
       const result = await cusor.toArray();
+      res.send(result);
+    });
+
+    // get single data
+
+    app.get("/hotels/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await hotelCollection.findOne(query);
       res.send(result);
     });
 

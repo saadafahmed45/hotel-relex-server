@@ -32,6 +32,7 @@ async function run() {
     await client.connect();
     const database = client.db("hotelRelexDatabase");
     const hotelCollection = database.collection("hotels");
+    const bookingCollection = database.collection("booking");
 
     // get
 
@@ -41,12 +42,24 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/booking", async (req, res) => {
+      const cusor = bookingCollection.find();
+      const result = await cusor.toArray();
+      res.send(result);
+    });
     // get single data
 
     app.get("/hotels/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await hotelCollection.findOne(query);
+      res.send(result);
+    });
+    // booking
+    app.get("/booking/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await bookingCollection.findOne(query);
       res.send(result);
     });
 
@@ -57,6 +70,15 @@ async function run() {
       const result = await hotelCollection.insertOne(hotel);
       res.send(result);
       console.log(result);
+    });
+
+    // booking
+
+    app.post("/booking", async (req, res) => {
+      const booking = req.body;
+      const result = await bookingCollection.insertOne(booking);
+      res.send(result);
+      console.log("server", result);
     });
 
     // Send a ping to confirm a successful connection

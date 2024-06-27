@@ -63,7 +63,7 @@ async function run() {
       res.send(result);
     });
 
-    // post
+    //hotel post
 
     app.post("/hotels", async (req, res) => {
       const hotel = req.body;
@@ -72,7 +72,7 @@ async function run() {
       console.log(result);
     });
 
-    // booking
+    // booking post
 
     app.post("/booking", async (req, res) => {
       const booking = req.body;
@@ -80,6 +80,8 @@ async function run() {
       res.send(result);
       console.log("server", result);
     });
+
+    // update
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });

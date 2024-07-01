@@ -92,6 +92,33 @@ async function run() {
 
     // update
 
+    app.put("/hotels/:id", async (req, res) => {
+      const id = req.params.id;
+      const hotel = req.body;
+      const filter = { _id: new ObjectId(id) };
+      const option = { upsert: true };
+      const updateProduct = {
+        $set: {
+          name: hotel.name,
+          description: hotel.description,
+          image: hotel.image,
+          address: hotel.address,
+          city: hotel.city,
+          country: hotel.country,
+          zip_postal: hotel.zip_postal,
+          price: hotel.price,
+          // amenities: hotel.amenities.selectedAmenities,
+        },
+      };
+      const result = await hotelCollection.updateOne(
+        filter,
+        updateProduct,
+        option
+      );
+      res.send(result);
+      console.log();
+    });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(

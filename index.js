@@ -3,7 +3,16 @@ const app = express();
 const cors = require("cors");
 // const port = 5000;
 app.use(express.json());
-app.use(cors());
+// app.use(cors());
+
+//middleware
+//Must remove "/" from your production URL
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "https://hotel-relex.vercel.app"],
+    credentials: true,
+  })
+);
 require("dotenv").config();
 
 // const dbuser = hotelRelexDb;
